@@ -1,0 +1,38 @@
+Data Segment
+  ostr db 'Computer','$'  
+  slen dw $-ostr
+  rstr db 20 dup(' ')
+Data Ends
+
+Code Segment
+  Assume cs:code, ds:data
+  Begin:
+    mov ax, data
+    mov ds, ax
+    mov es, ax
+    mov cx, slen
+    add cx, -2
+    lea si, ostr
+    lea di, rstr
+    add si, slen
+    add si, -2
+  L1:
+    mov al, [si]
+    mov [di], al
+    dec si
+    inc di
+    loop L1
+    mov al, [si]
+    mov [di], al
+    inc di
+    mov dl, '$'
+    mov [di], dl
+  Print:
+    mov ah, 09h
+    lea dx, rstr
+    int 21h
+  Exit:
+    mov ax, 4c00h
+    int 21h
+Code Ends
+End Begin
