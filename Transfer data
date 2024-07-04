@@ -1,0 +1,31 @@
+org 100H
+assume cs:code
+
+code segment
+start:
+    MOV CX, 08H
+    MOV BX, 10H
+    MOV DX, 21H
+
+    MOV SI, BX
+    MOV DI, DX
+
+    MOV AL, CL
+store:
+    MOV byte ptr [SI], AL
+    DEC AL
+    CMP AL, 0H
+    JNE store
+
+again:
+    MOV AL, byte ptr [SI]
+    MOV byte ptr [DI], AL
+    INC SI
+    INC DI
+    LOOP again
+
+    MOV AH, 4CH
+    INT 21H
+code ends
+
+end start
